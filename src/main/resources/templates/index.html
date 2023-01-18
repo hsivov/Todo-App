@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
     <title>Todo List</title>
 </head>
 <body>
+    <div class="container">
+        <h1>Todo List</h1>
+        <hr/>
 
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Description</th>
+                    <th>Created At</th>
+                    <th>Modified At</th>
+                    <th>Is Complete</th>
+                    <th>Controls</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${todoItems}">
+                    <td th:text="${item.getId()}"></td>
+                    <td th:each="${item.getDescription()}"></td>
+                    <td th:text="${item.getCreateDate()}"></td>
+                    <td th:text="${item.getModifyDate()}"></td>
+                    <td th:text="${item.isCompleted()}"></td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><a class="btn btn-outline-success" href="/create-todo">
+            <i class="bi bi-plus-square-fill"></i>Create a Todo</a></p>
+    </div>
+<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
 </body>
 </html>
