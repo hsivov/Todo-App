@@ -24,13 +24,25 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="item : ${todoItems}">
-                    <td th:text="${item.getId()}"></td>
-                    <td th:each="${item.getDescription()}"></td>
-                    <td th:text="${item.getCreateDate()}"></td>
-                    <td th:text="${item.getModifyDate()}"></td>
-                    <td th:text="${item.isCompleted()}"></td>
-                    <td>&nbsp;</td>
+                <tr th:each="item : ${todoItems}" th:class="${item.completed} ? 'alert alert-success' : 'alert alert-warning'">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.description}"></td>
+                    <td th:text="${item.createDate}"></td>
+                    <td th:text="${item.modifyDate}"></td>
+                    <td>
+                        <span th:if="${item.completed} == true" th:text="Yes" />
+                        <span th:unless="${item.completed} == true" th:text="No" />
+                    </td>
+                    <td>
+                        <div class="btn btn-group-sm" role="group">
+                            <a class="btn btn-info" th:href="@{/edit/{id} (id=${item.id})}">
+                                <i class="bi bi-pencil-fill">Edit</i>
+                            </a>
+                            <a class="btn btn-danger" th:href="@{/delete/{id} (id=${item.id})}">
+                                <i class="bi bi-trash-fill">Delete</i>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
