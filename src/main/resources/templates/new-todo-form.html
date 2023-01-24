@@ -18,20 +18,19 @@
             </p>
         </div>
         <div class="col-6">
-            <h2>Add a new Todo Item</h2>
+            <h2 class="mb-4">Add a new Todo Item</h2>
             <form action="#" th:action="@{/todo}" th:object="${todoItem}" method="POST">
-                <div class="form-group">
-                    <label for="description">Description</label>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
                     <input class="form-control"
                         type="text"
                         th:field="*{description}"
                         id="description"
                         placeholder="Description">
-
-                        <button type="submit" class="btn btn-outline-success">
-                            <i class="bi bi-plus-square-fill"></i>Add Todo
-                        </button>
                 </div>
+                <button type="submit" class="btn btn-outline-success">
+                    <i class="bi bi-plus-square-fill"></i>Add Todo
+                </button>
             </form>
         </div>
     </div>

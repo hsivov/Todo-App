@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -23,5 +24,15 @@ public class TodoItem {
     private LocalDateTime modifyDate;
     private boolean isCompleted;
 
+    public String createDateFormat() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
+        return getCreateDate().format(dateTimeFormatter);
+    }
+
+    public String modifyDateFormat() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        return getModifyDate().format(dateTimeFormatter);
+    }
 }
