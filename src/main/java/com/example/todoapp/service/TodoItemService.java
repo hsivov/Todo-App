@@ -1,37 +1,21 @@
 package com.example.todoapp.service;
 
-import com.example.todoapp.model.TodoItem;
-import com.example.todoapp.repository.TodoItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.todoapp.model.dto.TodoItemDTO;
+import com.example.todoapp.model.dto.TodoItemViewModel;
+import com.example.todoapp.model.entity.TodoItem;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
-@Service
-public class TodoItemService {
+public interface TodoItemService {
 
-    @Autowired
-    private TodoItemRepository todoItemRepository;
+    TodoItemViewModel getHomeViewData(String username);
 
-    public Collection<TodoItem> getAll() {
-        return todoItemRepository.findAll();
-    }
+    TodoItem getById(Long id);
 
-    public Optional<TodoItem> getById(Long id) {
-        return todoItemRepository.findById(id);
-    }
+    void add(TodoItemDTO todoItemDTO, String username);
 
-    public void save(TodoItem todoItem) {
-        if (todoItem.getId() == null) {
-            todoItem.setCreateDate(LocalDateTime.now().withNano(0));
-        }
-        todoItem.setModifyDate(LocalDateTime.now().withNano(0));
-        todoItemRepository.save(todoItem);
-    }
+    void update(Long id, TodoItemDTO todoItemDTO);
 
-    public void delete(TodoItem todoItem) {
-        todoItemRepository.delete(todoItem);
-    }
+    void delete(Long id);
 }

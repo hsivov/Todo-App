@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/commons::head}"></head>
+
+<body>
+<header th:replace="~{fragments/commons::nav}"></header>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <h2 class="mb-4">Register</h2>
+                <form th:action="@{/register}" th:method="POST" th:object="${userRegisterBindingModel}">
+
+                    <div th:if="${hasRegistrationError}" class="text-danger">Registration Error occurred</div>
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username"
+                               th:field="*{username}">
+                        <small th:errors="*{username}" class="text-danger"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" th:field="*{email}">
+                        <small th:errors="*{email}" class="text-danger"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" th:field="*{password}">
+                        <small th:errors="*{password}" class="text-danger"></small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" th:field="*{confirmPassword}">
+                        <small th:classappend="${#fields.hasErrors('password')} ? 'bg-danger'"></small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+</body>
+
+</html>

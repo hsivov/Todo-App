@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/commons::head}"></head>
+
+<body>
+<header th:replace="~{fragments/commons::nav}"></header>
+    <div class="container">
+        <h1 style="text-align: center">Todo List</h1>
+        <hr/>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Description</th>
+                    <th>Created At</th>
+                    <th>Modified At</th>
+                    <th>Is Complete</th>
+                    <th>Controls</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${todoItems.items}" th:class="${item.completed} ? 'table-success' : 'table-warning'">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.description}"></td>
+                    <td th:text="${item.createDate}"></td>
+                    <td th:text="${item.modifyDate}"></td>
+                    <td>
+                        <span th:if="${item.completed} == true" th:text="Yes" />
+                        <span th:unless="${item.completed} == true" th:text="No" />
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-around">
+                            <a class="btn btn-info btn-sm" th:href="@{/edit/{id} (id=${item.id})}">
+                                <i class="bi bi-pencil-fill">Edit</i>
+                            </a>
+                            <form th:method="POST" th:action="@{/delete/{id} (id=${item.id})}">
+                                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p><a class="btn btn-outline-success" href="./todo/add">
+            <i class="bi bi-plus-square-fill"></i>Create a Todo</a></p>
+    </div>
+<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+</body>
+</html>

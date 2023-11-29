@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
-    <title>Todo List</title>
-</head>
+<head th:replace="~{fragments/commons::head}"></head>
+
 <body>
+<header th:replace="~{fragments/commons::nav}"></header>
 <div class="container">
     <div class="row mt-5">
         <div class="col-2">
             <p>
-                <a class="btn btn-outline-success" href="./">
+                <a class="btn btn-outline-success" href="/home">
                     <i class="bi bi-arrow-left-square-fill">Back</i>
                 </a>
             </p>
         </div>
         <div class="col-6">
             <h2 class="mb-4">Add a new Todo Item</h2>
-            <form action="#" th:action="@{/todo}" th:object="${todoItem}" method="POST">
+            <form th:action="@{/todo/add}" th:object="${todoItemDTO}" th:method="POST">
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <input class="form-control"

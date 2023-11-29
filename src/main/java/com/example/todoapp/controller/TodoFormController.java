@@ -1,66 +1,88 @@
 package com.example.todoapp.controller;
 
-import com.example.todoapp.model.TodoItem;
-import com.example.todoapp.service.TodoItemService;
+import com.example.todoapp.model.dto.TodoItemDTO;
+import com.example.todoapp.model.entity.TodoItem;
+import com.example.todoapp.service.impl.LoggedUser;
+import com.example.todoapp.service.impl.TodoItemServiceImpl;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class TodoFormController {
 
-    @Autowired
-    private TodoItemService todoItemService;
+    private final TodoItemServiceImpl todoItemServiceImpl;
+    private final LoggedUser loggedUser;
 
-    @GetMapping("/create-todo")
-    public String showCreateForm(TodoItem todoItem) {
-        return "new-todo-form";
+    public TodoFormController(TodoItemServiceImpl todoItemServiceImpl, LoggedUser loggedUser) {
+        this.todoItemServiceImpl = todoItemServiceImpl;
+        this.loggedUser = loggedUser;
     }
 
-    @PostMapping("/todo")
-    public String createTodoItem(@Valid TodoItem todoItem) {
-        TodoItem item = new TodoItem();
-        item.setDescription(todoItem.getDescription());
-        item.setCompleted(todoItem.isCompleted());
+    @GetMapping("/todo/add")
+    public ModelAndView showCreateForm(@ModelAttribute("TodoItemDTO") TodoItemDTO todoItemDTO) {
+        if (!loggedUser.isLogged()) {
+            return new ModelAndView("redirect:/");
+        }
 
-        todoItemService.save(item);
+        ModelAndView modelAndView = new ModelAndView("new-todo-form");
+        modelAndView.addObject(todoItemDTO);
 
-        return "redirect:/";
+        return modelAndView;
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/todo/add")
+    public ModelAndView createTodoItem(@ModelAttribute("TodoItemDTO") @Valid TodoItemDTO todoItemDTO,
+                                       BindingResult bindingResult) {
+        if (!loggedUser.isLogged()) {
+            return new ModelAndView("redirect:/");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("new-todo-form");
+        }
+
+        todoItemServiceImpl.add(todoItemDTO, loggedUser.getUsername());
+
+        return new ModelAndView("redirect:/home");
+    }
+
+    @PostMapping("/delete/{id}")
     public String deleteTodoItem(@PathVariable("id") Long id) {
-        TodoItem todoItem = todoItemService.getById(id)
-                .orElseThrow(() -> new IllegalArgumentException("TodoItem id:" + id + "not found"));
+        if (!loggedUser.isLogged()) {
+            return "redirect:/";
+        }
 
-        todoItemService.delete(todoItem);
-        return "redirect:/";
+        todoItemServiceImpl.delete(id);
+        return "redirect:/home";
     }
 
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
-        TodoItem todoItem = todoItemService.getById(id)
-                .orElseThrow(() -> new IllegalArgumentException("TodoItem id:" + id + "not found"));
+        if (!loggedUser.isLogged()) {
+            return "redirect:/";
+        }
 
+        TodoItem todoItem = todoItemServiceImpl.getById(id);
         model.addAttribute("todo", todoItem);
 
         return "edit-todo-form";
     }
 
-    @PostMapping("/todo/{id}")
-    public String updateTodoItem(@PathVariable("id") Long id, @Valid TodoItem todoItem) {
-        TodoItem item = todoItemService.getById(id)
-                .orElseThrow(() -> new IllegalArgumentException("TodoItem id:" + id + "not found"));
+    @PostMapping("/edit/{id}")
+    public ModelAndView updateTodoItem(@PathVariable("id") Long id, @Valid TodoItemDTO todoItemDTO) {
+        if (!loggedUser.isLogged()) {
+            return new ModelAndView("redirect:/");
+        }
 
-        item.setDescription(todoItem.getDescription());
-        item.setCompleted(todoItem.isCompleted());
+        todoItemServiceImpl.update(id, todoItemDTO);
 
-        todoItemService.save(item);
-
-        return "redirect:/";
+        return new ModelAndView("redirect:/home");
     }
 }

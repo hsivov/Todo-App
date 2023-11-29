@@ -1,54 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
-    <title>Todo List</title>
-</head>
-<body>
-    <div class="container">
-        <h1 style="text-align: center">Todo List</h1>
-        <hr/>
 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Description</th>
-                    <th>Created At</th>
-                    <th>Modified At</th>
-                    <th>Is Complete</th>
-                    <th>Controls</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="item : ${todoItems}" th:class="${item.completed} ? 'table-success' : 'table-warning'">
-                    <td th:text="${item.id}"></td>
-                    <td th:text="${item.description}"></td>
-                    <td th:text="${item.createDateFormat()}"></td>
-                    <td th:text="${item.modifyDateFormat()}"></td>
-                    <td>
-                        <span th:if="${item.completed} == true" th:text="Yes" />
-                        <span th:unless="${item.completed} == true" th:text="No" />
-                    </td>
-                    <td>
-                        <div class="btn btn-group-sm" role="group">
-                            <a class="btn btn-info" th:href="@{/edit/{id} (id=${item.id})}">
-                                <i class="bi bi-pencil-fill">Edit</i>
-                            </a>
-                            <a class="btn btn-danger" th:href="@{/delete/{id} (id=${item.id})}">
-                                <i class="bi bi-trash-fill">Delete</i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <p><a class="btn btn-outline-success" href="./create-todo">
-            <i class="bi bi-plus-square-fill"></i>Create a Todo</a></p>
+<head th:replace="~{fragments/commons::head}"></head>
+
+<body>
+    <header th:replace="~{fragments/commons::nav}"></header>
+
+    <div class="container text-center">
+        <h1>TODO APPLICATION</h1>
+        <hr class="my-3"/>
+
+        <p class="h4">
+            Todo App is designed to help individuals and teams manage their workflow efficiently.
+            It allows users to create list of tasks they need to complete or things that they want to do. 
+            <br>
+            The App offers features such as the ability to set due dates, add description or comments,
+            and assign tasks. It incorporates different priorities of the tasks,
+            such as "Urgent" "Important" and "Low". The application provides real-time collaboration, enabling team members to work together more
+            efficiently and effectively.</p>
+        <hr class="my-3"/>
+
+        <h3>
+            <a class="text-primary" th:href="@{/login}">Login</a>
+            if you have an account or
+            <a class="text-primary" th:href="@{/register}">Register</a>
+            now and check our deals.
+        </h3>
     </div>
-<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
 </body>
+
 </html>
