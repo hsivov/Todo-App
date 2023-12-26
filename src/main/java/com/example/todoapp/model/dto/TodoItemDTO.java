@@ -51,16 +51,4 @@ public class TodoItemDTO {
     public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
-
-    public static TodoItemDTO createFromTodoItem(TodoItem todoItem) {
-        TodoItemDTO todoItemDTO = new TodoItemDTO();
-
-        todoItemDTO.setId(todoItem.getId());
-        todoItemDTO.setDescription(todoItem.getDescription());
-        todoItemDTO.setCreateDate(todoItem.createDateFormat());
-        todoItemDTO.setModifyDate(todoItem.modifyDateFormat());
-        todoItemDTO.setCompleted(todoItem.isCompleted());
-
-        return todoItemDTO;
-    }
 }

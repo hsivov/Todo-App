@@ -7,6 +7,7 @@ import com.example.todoapp.model.entity.User;
 import com.example.todoapp.repository.TodoItemRepository;
 import com.example.todoapp.repository.UserRepository;
 import com.example.todoapp.service.TodoItemService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,11 +19,13 @@ public class TodoItemServiceImpl implements TodoItemService {
 
     final private TodoItemRepository todoItemRepository;
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     public TodoItemServiceImpl(TodoItemRepository todoItemRepository,
-                               UserRepository userRepository) {
+                               UserRepository userRepository, ModelMapper modelMapper) {
         this.todoItemRepository = todoItemRepository;
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class TodoItemServiceImpl implements TodoItemService {
         User user = userRepository.findByUsername(username);
 
         List<TodoItemDTO> assignedTasks = todoItemRepository.findByUser(user).stream()
-                .map(TodoItemDTO::createFromTodoItem)
+                .map(todoItem -> modelMapper.map(todoItem, TodoItemDTO.class))
                 .toList();
 
         return new TodoItemViewModel(assignedTasks);
