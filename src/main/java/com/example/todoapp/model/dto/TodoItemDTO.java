@@ -1,10 +1,5 @@
 package com.example.todoapp.model.dto;
 
-import com.example.todoapp.model.entity.TodoItem;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class TodoItemDTO {
     private Long id;
     private String description;

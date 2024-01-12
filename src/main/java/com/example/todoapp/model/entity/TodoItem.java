@@ -3,7 +3,6 @@ package com.example.todoapp.model.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "todo_data")
@@ -77,17 +76,5 @@ public class TodoItem {
 
     public void setCompleted(boolean completed) {
         isCompleted = completed;
-    }
-
-    public String createDateFormat() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
-        return getCreateDate().format(dateTimeFormatter);
-    }
-
-    public String modifyDateFormat() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
-        return getModifyDate().format(dateTimeFormatter);
     }
 }

@@ -4,9 +4,6 @@ import com.example.todoapp.model.entity.TodoItem;
 import com.example.todoapp.service.impl.TodoItemServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.List;
-
 @CrossOrigin(origins= {"*"}, maxAge = 3600, allowCredentials = "false" )
 @RestController
 public class ApiController {

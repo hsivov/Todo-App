@@ -4,9 +4,6 @@ import com.example.todoapp.model.dto.TodoItemDTO;
 import com.example.todoapp.model.dto.TodoItemViewModel;
 import com.example.todoapp.model.entity.TodoItem;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface TodoItemService {
 
     TodoItemViewModel getHomeViewData(String username);

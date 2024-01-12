@@ -5,6 +5,7 @@ import com.example.todoapp.model.dto.UserRegisterBindingModel;
 import com.example.todoapp.model.entity.User;
 import com.example.todoapp.repository.UserRepository;
 import com.example.todoapp.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,13 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final LoggedUser loggedUser;
+    private final ModelMapper modelMapper;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, LoggedUser loggedUser) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, LoggedUser loggedUser, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.loggedUser = loggedUser;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -35,10 +38,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        User user = new User();
-        user.setUsername(userRegisterBindingModel.getUsername());
-        user.setEmail(userRegisterBindingModel.getEmail());
-        user.setPassword(passwordEncoder.encode(userRegisterBindingModel.getPassword()));
+        User user = modelMapper.map(userRegisterBindingModel, User.class);
 
         userRepository.save(user);
 
