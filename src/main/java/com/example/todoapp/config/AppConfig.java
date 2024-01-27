@@ -4,6 +4,7 @@ import com.example.todoapp.model.dto.UserRegisterBindingModel;
 import com.example.todoapp.model.entity.User;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,10 +25,13 @@ public class AppConfig {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
 
-        modelMapper.addConverter((Converter<LocalDateTime, String>)
-                mappingContext -> DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
-                        .format(mappingContext.getSource()));
-
+        modelMapper.addConverter(new Converter<LocalDateTime, String>() {
+            @Override
+            public String convert(MappingContext<LocalDateTime, String> mappingContext) {
+                return DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
+                        .format(mappingContext.getSource());
+            }
+        });
 
         Converter<String, String> passwordConverter
                 = ctx -> (ctx.getSource() == null)
