@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - todoapph
+name: Build and deploy WAR app to Azure Web App - todoapph
 
 on:
   push:
@@ -38,7 +38,7 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
-  
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
@@ -48,9 +48,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_016D18EC755240B2BB61C86D998BC2AD }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F47D55E7DC1D4A358BD93445A041F294 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6AE8AAE0A8EE47BCAA67225FA33E3F39 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_CEBAF7E4144B449C8D1942FB59F3443F }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8587EDBC075F4A368BFA18C2DD074091 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B99F7B670BF5410B93CE9AF94A0BF039 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
