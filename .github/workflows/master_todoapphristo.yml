@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy WAR app to Azure Web App - todoapphristo
+name: Build and deploy JAR app to Azure Web App - todoapphristo
 
 on:
   push:
@@ -22,13 +22,13 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean install -DskipTests
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.war'
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
@@ -38,7 +38,7 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
-
+  
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
@@ -48,9 +48,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_CE5E2A7A5455452EBC4E557D95BE18E6 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5A8E35B75BED47D78AF495575B25020A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F5FCA110668C4000BC8D90612051844B }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B8FD9AD06F3447E198D67BB1DC9E426A }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_61C4249DC5B3414FA80144DE486DE6BA }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D7470627A6D542569BBA61F83FFD7FE1 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -58,5 +58,5 @@ jobs:
         with:
           app-name: 'todoapphristo'
           slot-name: 'Production'
-          package: '*.war'
+          package: '*.jar'
           
