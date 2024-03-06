@@ -35,3 +35,6 @@ build/
 ### Docker ###
 Dockerfile
 docker-compose.yml
+
+### Azure ###
+.azure/
