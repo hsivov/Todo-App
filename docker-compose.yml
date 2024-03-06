@@ -1,18 +1,18 @@
 version: "3"
 services:
   todoapp-db:
-    image: postgres:15.2-alpine
+    image: postgres:16.2-alpine
     environment:
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=BCNTntqY6@ja
     volumes:
       - data:/var/lib/postgresql/data
 
   todoapp:
-    image: hsivov/todo-app:v2.0
+    image: hsivov/todo-app
     environment:
       - TZ=Europe/Sofia
     ports:
-      - "8080:8080"
+      - "80:8080"
     depends_on:
       - todoapp-db
 volumes:

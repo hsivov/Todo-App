@@ -1,4 +1,4 @@
-FROM tomcat:10-jdk17
-COPY target/todo-app.war /usr/local/tomcat/webapps/todo-app.war
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
+FROM eclipse-temurin:17-alpine
+WORKDIR /app
+COPY target/todo-app.jar .
+CMD ["java", "-jar", "todo-app.jar"]
