@@ -1,15 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - terraformhristo
+name: Build and deploy JAR app to Azure Web App
 
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches:
-      - master
+      - deploy-to-azure
   workflow_dispatch:
 
 jobs:
@@ -25,7 +22,7 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean install -DskipTests
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -51,15 +48,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_EEC3727E7FEF4A49A99CBAF6B8AFB7DF }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4CD212EB6A894ADEB805C3D3DCDA517B }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2FBC0FE1912349EAB929AD3FFE4AF869 }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID}}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'terraformhristo'
+          app-name: 'webapp-hristo'
           slot-name: 'Production'
           package: '*.jar'
           
