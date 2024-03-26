@@ -12,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginPageTests {
-    private static final String URL = "https://terraformhristo.azurewebsites.net";
+    private static final String URL = "http://localhost:8081";
     private static WebDriver driver;
 
     @Before
@@ -48,8 +48,8 @@ public class LoginPageTests {
         WebElement username = driver.findElement(By.name("username"));
         WebElement password = driver.findElement(By.name("password"));
 
-        username.sendKeys("hristo");
-        password.sendKeys("levskar4e");
+        username.sendKeys("hsivov");
+        password.sendKeys("123456");
 
         WebElement submitButton = driver.findElement(By.cssSelector(".btn"));
         submitButton.click();
