@@ -1,8 +1,8 @@
 package com.example.todoapp.ui_tests;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,17 +11,17 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LoginPageTests {
-    private static final String URL = "http://localhost:8081";
+public class LoginPageTest {
+    private static final String URL = "http://localhost:8080";
     private static WebDriver driver;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         // Set up Chrome driver
         System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("start-maximized", "--remote-allow-origins=*");
+        options.addArguments("--headless", "--remote-allow-origins=*");
 
         driver = new ChromeDriver(options);
     }
@@ -48,8 +48,8 @@ public class LoginPageTests {
         WebElement username = driver.findElement(By.name("username"));
         WebElement password = driver.findElement(By.name("password"));
 
-        username.sendKeys("hsivov");
-        password.sendKeys("123456");
+        username.sendKeys("hristo");
+        password.sendKeys("levskar4e");
 
         WebElement submitButton = driver.findElement(By.cssSelector(".btn"));
         submitButton.click();
@@ -105,7 +105,7 @@ public class LoginPageTests {
         assertEquals(URL + "/login", currentUrl);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         driver.quit();
     }

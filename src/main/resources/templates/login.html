@@ -10,7 +10,12 @@
             <div class="col-4">
                 <h2 class="mb-4">Login</h2>
                 <form th:method="POST" th:action="@{/login}" th:object="${userLoginBindingModel}">
-                    <div th:each="error : ${#fields.errors()}" th:text="${error}" class="text-danger"></div>
+<!--                    <div th:each="error : ${#fields.errors()}" th:text="${error}" class="text-danger"></div>-->
+
+                    <div th:if="${#fields.hasErrors('username')}"
+                         th:errors="*{username}" class="text-danger"></div>
+                    <div th:if="${#fields.hasErrors('password')}"
+                         th:errors="*{password}" class="text-danger"></div>
 
                     <div th:if="${hasLoginError}"
                          th:text="'Incorrect username or password!'" class="text-danger"></div>

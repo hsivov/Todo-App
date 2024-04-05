@@ -6,7 +6,7 @@ name: Build and deploy JAR app to Azure Web App
 on:
   push:
     branches:
-      - deploy-to-azure
+      - master
   workflow_dispatch:
 
 jobs:
@@ -56,7 +56,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'webapp-hristo'
+          app-name: 'todoapp-hristo'
           slot-name: 'Production'
           package: '*.jar'
           

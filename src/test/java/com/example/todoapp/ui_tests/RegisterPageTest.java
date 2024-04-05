@@ -1,32 +1,32 @@
 package com.example.todoapp.ui_tests;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class RegisterPageTest {
-    private static final String URL = "https://terraformhristo.azurewebsites.net";
+    private static final String URL = "http://localhost:8080";
     private static WebDriver driver;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         // Set up Chrome driver
         System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("start-maximized", "--remote-allow-origins=*");
+        options.addArguments("--headless", "--remote-allow-origins=*");
 
         driver = new ChromeDriver(options);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         driver.quit();
     }
