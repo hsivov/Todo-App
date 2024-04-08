@@ -1,0 +1,35 @@
+name: UI Tests
+
+on: [push, pull_request]
+
+jobs:
+  selenium-tests:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java version
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Download and unzip ChromeDriver
+        run: |
+          Invoke-WebRequest -Uri "https://storage.googleapis.com/chrome-for-testing-public/123.0.6312.105/win64/chromedriver-win64.zip" -OutFile "$env:TEMP\chromedriver.zip"
+          Expand-Archive -Path "$env:TEMP\chromedriver.zip" -DestinationPath "$env:GITHUB_WORKSPACE\src\test\resources\drivers"
+          Move-Item -Path "$env:GITHUB_WORKSPACE\src\test\resources\drivers\chromedriver-win64\chromedriver.exe" -Destination "$env:GITHUB_WORKSPACE\src\test\resources\drivers"
+
+      - name: Install Chrome browser
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Build with Maven (skipping tests)
+        run: mvn clean install -DskipTests
+
+      - name: Start application
+        run: Start-Process -FilePath "java" -ArgumentList "-jar $env:GITHUB_WORKSPACE\target\todo-app.jar"
+
+      - name: Run tests
+        run: mvn test
